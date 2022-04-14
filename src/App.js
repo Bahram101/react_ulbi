@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import ClassCounter from './components/ClassCounter';
-import Counter from './components/Counter';
-import PostItem from './components/PostItem';
 import PostList from './components/PostList';
+
+import PostForm from './components/PostForm';
 import './styles/App.css';
-import MyButton from './components/UI/button/MyButton';
-import MyInput from './components/UI/input/MyInput';
+import MySelect from './components/UI/seleect/MySelect';
 
 function App() {
 	const [posts, setPosts] = useState([
@@ -14,42 +12,42 @@ function App() {
 		{ id: 3, title: 'Javascript 3', body: 'Description' },
 	]);
 
-	const [title, setTitle] = useState('');
-	const [body, setBody] = useState('');
+	const [selectedSort, setSelectedSort] = useState('');
 
-	const addNewPost = (e) => {
-		e.preventDefault()
-		const newPost = {
-			id: Date.now(),
-			title,
-			body,
-		};
-		setPosts([...posts, newPost])
-		setTitle('')
-		setBody('')
+	const createPost = (newPost) => {
+		setPosts([...posts, newPost]);
 	};
 
+	const removePost = (post) => {
+		setPosts(posts.filter((p) => p.id !== post.id));
+	};
 
+	const sortPosts = (sort) =>{
+		setSelectedSort(sort)
+		console.log(selectedSort )
+	}
 
 	return (
 		<div className='App'>
-			<form>
-				<MyInput
-					type='text'
-					placeholder='Название поста'
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
-				<MyInput
-					type='text'
-					placeholder='Описание поста'
-					value={body}
-					onChange={(e) => setBody(e.target.value)}
-				/>
-				{/* <button onClick={(e)=>addNewPost(e)}>Создать пост</button> */}
-				<MyButton onClick={(e)=>addNewPost(e)}>Создать пост</MyButton>
-			</form>
-			<PostList posts={posts} title='Зоголовок 1' />
+			<PostForm create={createPost} />
+
+			<hr style={{ margin: '15px 0' }} />
+
+			<MySelect
+				value={selectedSort}
+				onChange={sortPosts}
+				defaultValue='Сортировка'
+				options={[
+					{ value: 'title', name: 'По названию' },
+					{ value: 'body', name: 'По описанию' },
+				]}
+			/>
+
+			{posts.length ? (
+				<PostList remove={removePost} posts={posts} title='Зоголовок 1' />
+			) : (
+				<h1 style={{ textAlign: 'center' }}>Посты не найдены!</h1>
+			)}
 		</div>
 	);
 }
