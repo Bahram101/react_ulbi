@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import MyButton from './UI/button/MyButton';
 import MyInput from './UI/input/MyInput';
 
@@ -7,28 +7,29 @@ function PostForm({ create }) {
 
 	const addNewPost = (e) => {
 		e.preventDefault();
-		const newPost = { ...post, id: Date.now() };
-		
-		create(newPost)
+		const newPost = {
+			...post,
+			id: Date.now(),
+		};
+		create(newPost);
 		setPost({ title: '', body: '' });
 	};
 
 	return (
 		<form>
 			<MyInput
-				type='text'
-				placeholder='Название поста'
 				value={post.title}
 				onChange={(e) => setPost({ ...post, title: e.target.value })}
+				type='text'
+				placeholder='Название поста'
 			/>
 			<MyInput
-				type='text'
-				placeholder='Описание поста'
 				value={post.body}
 				onChange={(e) => setPost({ ...post, body: e.target.value })}
+				type='text'
+				placeholder='Описание поста'
 			/>
-			{/* <button onClick={(e)=>addNewPost(e)}>Создать пост</button> */}
-			<MyButton onClick={(e) => addNewPost(e)}>Создать пост</MyButton>
+			<MyButton onClick={addNewPost}>Создать пост</MyButton>
 		</form>
 	);
 }

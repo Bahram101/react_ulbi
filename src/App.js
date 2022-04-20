@@ -4,6 +4,8 @@ import PostForm from './components/PostForm';
 import PostFilter from './components/PostFilter';
 import MyModal from './components/UI/MyModal/MyModal';
 import './styles/App.css';
+import MyButton from './components/UI/button/MyButton';
+import { usePosts } from './hooks/usePosts';
 
 function App() {
 	const [posts, setPosts] = useState([
@@ -13,25 +15,13 @@ function App() {
 	]);
 
 	const [filter, setFilter] = useState({ sort: '', query: '' });
-
-	const sortedPosts = useMemo(() => {
-		if (filter.sort) {
-			return [...posts].sort((a, b) =>
-				a[filter.sort].localeCompare(b[filter.sort])
-			);
-		}
-		return posts;
-	}, [filter.sort, posts]);
-
-	const sortedAndSearchedPosts = useMemo(() => {
-		return sortedPosts.filter((post) =>
-			post.title.toLowerCase().includes(filter.query)
-		);
-	}, [filter.query, filter.sort]);
+	const [modal, setModal] = useState(false);
+	const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
 	//Создание пост
 	const createPost = (newPost) => {
 		setPosts([...posts, newPost]);
+		setModal(false);
 	};
 
 	//Удаление пост
@@ -41,7 +31,10 @@ function App() {
 
 	return (
 		<div className='App'>
-			<MyModal>
+			<MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>
+				Создать пользователя
+			</MyButton>
+			<MyModal visible={modal} setVisible={setModal}>
 				<PostForm create={createPost} />
 			</MyModal>
 
@@ -50,7 +43,7 @@ function App() {
 			<PostList
 				remove={removePost}
 				posts={sortedAndSearchedPosts}
-				title='Зоголовок 1'
+				title='Посты про JS'
 			/>
 		</div>
 	);
