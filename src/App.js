@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PostList from './components/PostList';
 import PostForm from './components/PostForm';
 import PostFilter from './components/PostFilter';
@@ -6,17 +6,17 @@ import MyModal from './components/UI/MyModal/MyModal';
 import './styles/App.css';
 import MyButton from './components/UI/button/MyButton';
 import { usePosts } from './hooks/usePosts';
+import PostService from './API/PostService';
 
 function App() {
-	const [posts, setPosts] = useState([
-		{ id: 1, title: 'Jasdf', body: 'asdff' },
-		{ id: 2, title: 'asdf 2', body: 'qwerewq' },
-		{ id: 3, title: 'bvxxcf 3', body: 'sdgsdfg' },
-	]);
-
+	const [posts, setPosts] = useState([]);
 	const [filter, setFilter] = useState({ sort: '', query: '' });
 	const [modal, setModal] = useState(false);
 	const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+
+	useEffect(() => {
+		fetchPosts();
+	}, []);
 
 	//Создание пост
 	const createPost = (newPost) => {
@@ -28,6 +28,11 @@ function App() {
 	const removePost = (post) => {
 		setPosts(posts.filter((p) => p.id !== post.id));
 	};
+
+	async function fetchPosts() {
+		const posts = await PostService.getAll();
+		setPosts(posts);
+	}
 
 	return (
 		<div className='App'>
