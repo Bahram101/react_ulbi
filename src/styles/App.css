@@ -9,23 +9,22 @@
     justify-content: center;
 }
 
-.App{
-	width:100%;
-	
+.App {
+    width: 100%;
+    transition: 0.5s;
 }
 
 .App.light {
     background-color: white;
-    transition: 0.5s;
 }
+    
 .App.dark {
     background-color: #263238;
     color: white;
-    transition: 0.5s;
 }
 .content {
     width: 800px;
-	margin:0 auto;
+    margin: 0 auto;
 }
 
 .post {

@@ -15,7 +15,7 @@ const PostList = ({ posts, title, remove }) => {
 					<CSSTransition key={post.id} timeout={500} classNames='post'>
 						<PostItem
 							remove={remove}
-							number={index + 1}
+							number={post.id}
 							post={post}
 							
 						/>

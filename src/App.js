@@ -9,6 +9,7 @@ import PostService from "./API/PostService";
 import { Loader } from "./components/UI/Loader/Loader";
 import { useFetching } from "./hooks/useFetching";
 import { useTheme } from "./hooks/useTheme";
+import { getPageCount } from "./utils/pages";
 import "./styles/App.css";
 
 function App() {
@@ -16,23 +17,28 @@ function App() {
     const [filter, setFilter] = useState({ sort: "", query: "" });
     const [modal, setModal] = useState(false);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-    const [isPostsLoading, postError, fetchPosts] = useFetching(async () => {
-        const posts = await PostService.getAll();
-        setPosts(posts);
-    });
+    const [totalPages, setTotalPages] = useState(0);
+    const [limit, setLimit] = useState(20);
+    const [page, setPage] = useState(1);
     const { theme, toggleTheme } = useTheme();
+    const [isPostsLoading, postError, fetchPosts] = useFetching(async () => {
+        const response = await PostService.getAll(limit, page);
+        setPosts(response.data);         
+        const totalCount = response.headers["x-total-count"];
+        setTotalPages(getPageCount(totalCount, limit))
+    });
 
     useEffect(() => {
         fetchPosts();
     }, []);
+
+    console.log("totalPages", totalPages);
 
     //Создание пост
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
         setModal(false);
     };
-
-    console.log('isPostsLoading',isPostsLoading);
 
     //Удаление пост
     const removePost = (post) => {
