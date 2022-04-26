@@ -10,8 +10,7 @@ import { Loader } from '../components/UI/Loader/Loader';
 import { useFetching } from '../hooks/useFetching';
 import { useTheme } from '../hooks/useTheme';
 import { getPageCount } from '../utils/pages';
-import { Pagination } from '../components/UI/pagination/Pagination';
-import { Link } from 'react-router-dom';
+import { Pagination } from '../components/UI/pagination/Pagination'; 
 import '../styles/App.css';
 
 function Posts() {
@@ -24,7 +23,7 @@ function Posts() {
 	const [page, setPage] = useState(1);
 	const { theme, toggleTheme } = useTheme();
 
-	const [isPostsLoading, postError, fetchPosts] = useFetching(
+	const [fetchPosts, isPostsLoading, postError] = useFetching(
 		async (limit, page) => {
 			const response = await PostService.getAll(limit, page);
 			setPosts(response.data);
