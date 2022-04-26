@@ -13,7 +13,7 @@ import { getPageCount } from '../utils/pages';
 import { Pagination } from '../components/UI/pagination/Pagination'; 
 import '../styles/App.css';
 
-function Posts() {
+const Posts = ()=> {
 	const [posts, setPosts] = useState([]);
 	const [filter, setFilter] = useState({ sort: '', query: '' });
 	const [modal, setModal] = useState(false);
