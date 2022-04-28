@@ -5,11 +5,11 @@ export const useTheme = () => {
 
     const toggleTheme = () => {
         if (theme === "light") {
-            localStorage.setItem("theme", "dark");
             setTheme("dark");
+            localStorage.setItem("theme", "dark");
         } else {
-            localStorage.setItem("theme", "light");
             setTheme("light");
+            localStorage.setItem("theme", "light");
         }
     };
 
