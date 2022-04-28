@@ -27,8 +27,6 @@ const Post = () => {
 		fetchCommentsById(params.id);
 	}, []);
 
-	console.log('comments', comments);
-
 	return (
 		<div>
 			{isLoading ? (
