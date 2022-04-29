@@ -27,8 +27,6 @@ const Post = () => {
 		}
 	);
 
-	
-
 	useEffect(() => {
 		fetchPostById(params.id);
 		fetchCommentsById(params.id);

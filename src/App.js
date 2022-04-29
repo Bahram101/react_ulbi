@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Navbar } from './components/UI/Navbar/Navbar';
 import AppRouter from './components/AppRouter';
@@ -6,10 +6,18 @@ import { AuthContext } from './context';
 import './styles/App.css';
 
 function App() {
-	const [isAuth, setIsAuth] = useState(true);
+	const [isAuth, setIsAuth] = useState(false);
+	const [loading, setLoading] = useState(true);
 
- 	return (
-		<AuthContext.Provider value={{isAuth, setIsAuth}}>
+	useEffect(() => {
+		if (localStorage.getItem('ulbiAuth')) {
+			setIsAuth(true);
+		}
+		setLoading(false);
+	}, []);
+
+	return (
+		<AuthContext.Provider value={{ isAuth, setIsAuth, loading }}>
 			<BrowserRouter>
 				<Navbar />
 				<AppRouter />

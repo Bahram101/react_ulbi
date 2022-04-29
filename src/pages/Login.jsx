@@ -5,11 +5,12 @@ import { AuthContext } from '../context';
 
 export const Login = () => {
 
-	const {isAuth, setIsAuth} = useContext(AuthContext)
+	const {setIsAuth} = useContext(AuthContext)
 
 	const login = (e)=>{
 		e.preventDefault()
 		setIsAuth(true)
+		localStorage.setItem('ulbiAuth', true)
 	}	
 
 	return (
@@ -18,7 +19,7 @@ export const Login = () => {
 			<form onSubmit={login}>
 				<MyInput type='text' placeholder='Введите логин' />
 				<MyInput type='password' placeholder='Введите пароль' />
-				<MyButton >Войти</MyButton>
+				<MyButton>Войти</MyButton>
 			</form>
 		</div>
 	);
